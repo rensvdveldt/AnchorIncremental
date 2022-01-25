@@ -1,5 +1,5 @@
 [package]
-name = "Game"
+name = "game"
 version = "0.1.0"
 description = "Created with Anchor"
 edition = "2018"
@@ -17,3 +17,4 @@ default = []
 
 [dependencies]
 anchor-lang = "0.20.1"
+highscore = { path = "../highscore", features = ["cpi"] }

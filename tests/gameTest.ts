@@ -15,6 +15,29 @@ const provider = anchor.Provider.local()
 // Configure the client to use the local cluster.
 anchor.setProvider(provider)
 
+describe('Highscore setup', () => {  
+
+  it('Initialized the highscore account', async () => {
+
+    const highscore_program = anchor.workspace.Highscore as Program<Highscore>
+    const highscore = anchor.web3.Keypair.generate()
+
+    await highscore_program.rpc.initialize(
+      {
+        accounts: {
+          scoreboard: highscore.publicKey,
+          user: provider.wallet.publicKey,
+          systemProgram: SystemProgram.programId,
+        },
+        signers: [highscore],
+      }
+    )
+
+    _highscores = highscore
+    
+  })
+})
+
 describe('Game setup', () => {  
 
   it('Initialized the game account and resources', async () => {
@@ -47,30 +70,6 @@ describe('Game setup', () => {
 
     _myAssets = myAssets
     _myIncrementor = myIncrementor
-    
-  })
-})
-
-describe('Highscore setup', () => {  
-
-  it('Initialized the highscore account', async () => {
-
-    const highscore_program = anchor.workspace.Highscore as Program<Highscore>
-    const highscore = anchor.web3.Keypair.generate()
-
-    await highscore_program.rpc.initialize(
-      {
-        accounts: {
-          highscore: highscore.publicKey
-        }
-      }
-    )
-
-    // // Check if no assets and 2 credits are owned by newly created account
-    // const highscores = await program.account.highscore.fetch(highscore.publicKey)
-    // // assert.ok(highscores.scores[0].amount.eq(new anchor.BN(0)))
-
-    // _highscores = highscore
     
   })
 })
